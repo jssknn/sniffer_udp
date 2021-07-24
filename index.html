@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>Registros</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<p> ID: <b>{{id_device}}</b> | Desde: <b>{{fecha_desde}}</b> | Hasta: <b>{{fecha_hasta}}</b> | Registros: <b>{{cuenta}}</b></p>
+{% if items %}
+<button id="descarga" class="btn btn-success" onclick="ExportToExcel('xlsx')">Exportar</button>	
+  <table id="tblLogs" class="table table-bordered">
+
+  <tr>
+    <th>Fecha</th>
+    <th>IP</th>
+    <th>Puerto</th>
+    <th>Datos</th>	
+  </tr>
+  
+    {% for item in items %}
+  <tr>    
+    <td> {{ item.fecha}}</td>
+    <td>{{ item.ip }}</td>
+    <td> {{ item.puerto}}</td>
+    <td>{{ item.datos }}</td>	
+  </tr>    
+    {% endfor %}
+
+    {% else %}
+    	<p>No hay datos</p>
+    {% endif %}
+  
+  </table>    
+</body>
+<script type="text/javascript">
+function ExportToExcel(type, fn, dl) {
+       var elt = document.getElementById('tblLogs');
+       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+       return dl ?
+         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         XLSX.writeFile(wb, fn || ({{id_device}}+'.' + (type || 'xlsx')));
+    }
+</script>
+</html>
