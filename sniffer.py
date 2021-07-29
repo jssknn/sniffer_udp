@@ -17,4 +17,4 @@ def print_pkt(pkt):
 	result=db[str(id_device)].insert_one(paquete)
 
 if __name__ == '__main__':
-	sniff(filter='udp and port 6202', prn=print_pkt)
+	sniff(filter='udp and port 6202', prn=print_pkt, store=0)
